@@ -1,0 +1,30 @@
+{
+    "appKeys": {
+        "KEY_CONDITIONS": 1,
+        "KEY_TEMPERATURE": 0,
+        "KEY_WINDSPEED": 2
+    },
+    "capabilities": [
+        "location"
+    ],
+    "companyName": "isaac.johnson@gmail.com",
+    "longName": "IDJWATCHFACE01",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "fonts/led16sgmnt-Regular.ttf",
+                "name": "FONT_LED16_42",
+                "type": "font"
+            }
+        ]
+    },
+    "sdkVersion": "2",
+    "shortName": "IDJWATCHFACE01",
+    "uuid": "692a8a33-0c97-48c8-b66d-b0dd9c0d9afe",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
