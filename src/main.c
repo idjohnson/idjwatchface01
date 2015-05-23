@@ -6,6 +6,7 @@
 static Window *s_main_window;
 static TextLayer *s_time_layer;
 static TextLayer *s_time_meridian_layer;
+static TextLayer *s_time_date_layer;
 static TextLayer *s_date_layer;
 static TextLayer *s_weather_layer;
 static GFont s_time_font;
@@ -30,11 +31,11 @@ static void update_time() {
     strftime(buffer, sizeof("00:00"), "%I:%M", tick_time);
   }
   
-  strftime(datest, sizeof("00-00"), "%m-%d", tick_time);
+ // strftime(datest, sizeof("00-00"), "%m-%d", tick_time);
 
   // Display this time on the TextLayer
   text_layer_set_text(s_time_layer, buffer);
- // text_layer_set_text(s_date_layer, datest);
+  text_layer_set_text(s_date_layer, datest);
   
   if (tick_time->tm_hour > 11)
   {
@@ -59,6 +60,13 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_time_meridian_layer, GColorClear);
   text_layer_set_text_color(s_time_meridian_layer, GColorBlack);
   text_layer_set_text(s_time_meridian_layer, "MM");
+  
+  
+  // Create time date layer
+  s_time_date_layer = text_layer_create(GRect(10, 100, 32, 24));
+  text_layer_set_background_color(s_time_date_layer, GColorClear);
+  text_layer_set_text_color(s_time_date_layer, GColorBlack);
+  text_layer_set_text(s_time_date_layer, "00-00");
 
   // Create temperature Layer
   s_weather_layer = text_layer_create(GRect(0, 130, 144, 25));
@@ -78,6 +86,10 @@ static void main_window_load(Window *window) {
   text_layer_set_font(s_time_meridian_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_meridian_layer));
   
+  // add date layer
+  text_layer_set_font(s_time_date_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_date_layer));
+  
   // Apply to TextLayer
   //text_layer_set_font(s_time_layer, s_time_font);
   
@@ -93,6 +105,7 @@ static void main_window_unload(Window *window) {
   // Destroy Textlayer
   text_layer_destroy(s_time_layer);
   text_layer_destroy(s_time_meridian_layer);
+  text_layer_destroy(s_time_date_layer);
   
   // Unload GFont
   fonts_unload_custom_font(s_time_font);
