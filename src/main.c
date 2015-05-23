@@ -7,10 +7,8 @@ static Window *s_main_window;
 static TextLayer *s_time_layer;
 static TextLayer *s_time_meridian_layer;
 static TextLayer *s_date_layer;
-//static TextLayer *s_wday_layer;
 static TextLayer *s_weather_layer;
 static GFont s_time_font;
-static GFont s_weather_font;
 
 static void update_time() {
   // Get a tm structure
@@ -22,8 +20,6 @@ static void update_time() {
   static char ambuff[] = "AM";
   static char pmbuff[] = "PM";
   static char datest[] = "00-00";
- // static char wday[] = "xxx";
- // static char wday2[] = "xxx";
 
   // Write the current hours and minutes into the buffer
   if(clock_is_24h_style() == true) {
@@ -34,37 +30,11 @@ static void update_time() {
     strftime(buffer, sizeof("00:00"), "%I:%M", tick_time);
   }
   
-  /*
-  if (tick_time->tm_wday == 0)
-  {
-    strcpy(wday, "sun");
-  } else if (tick_time->tm_wday == 1)
-  {
-    strcpy(wday, "mon");
-  } else if (tick_time->tm_wday == 2)
-  {
-    strcpy(wday, "tue");
-  } else if (tick_time->tm_wday == 3)
-  {
-    strcpy(wday, "wed");
-  } else if (tick_time->tm_wday == 4)
-  {
-    strcpy(wday, "thr");
-  } else if (tick_time->tm_wday == 5)
-  {
-    strcpy(wday, "fri");
-  } else if (tick_time->tm_wday == 6)
-  {
-    strcpy(wday, "sat");
-  }  
-  */
-  
   strftime(datest, sizeof("00-00"), "%m-%d", tick_time);
 
   // Display this time on the TextLayer
   text_layer_set_text(s_time_layer, buffer);
-  text_layer_set_text(s_date_layer, datest);
- // text_layer_set_text(s_wday_layer, wday2);
+ // text_layer_set_text(s_date_layer, datest);
   
   if (tick_time->tm_hour > 11)
   {
@@ -72,8 +42,6 @@ static void update_time() {
   } else {
     text_layer_set_text(s_time_meridian_layer, ambuff);
   }
-  
-  
 }
 
 static void main_window_load(Window *window) {
@@ -86,19 +54,11 @@ static void main_window_load(Window *window) {
   text_layer_set_text_color(s_time_layer, GColorBlack);
   text_layer_set_text(s_time_layer, "00:00");
   
-  // Create the date layer
-  //s_date_layer = text_layer_create
   // Create time meridian layer
   s_time_meridian_layer = text_layer_create(GRect(100, 100, 32, 24));
   text_layer_set_background_color(s_time_meridian_layer, GColorClear);
   text_layer_set_text_color(s_time_meridian_layer, GColorBlack);
   text_layer_set_text(s_time_meridian_layer, "MM");
-  
-  // Create time weekday layer
-//  s_wday_layer = text_layer_create(GRect(10, 100, 32, 24));
-//  text_layer_set_background_color(s_wday_layer, GColorClear);
-//  text_layer_set_text_color(s_wday_layer, GColorBlack);
-//  text_layer_set_text(s_wday_layer, "xxx");
 
   // Create temperature Layer
   s_weather_layer = text_layer_create(GRect(0, 130, 144, 25));
@@ -118,10 +78,6 @@ static void main_window_load(Window *window) {
   text_layer_set_font(s_time_meridian_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_meridian_layer));
   
-  // add week day layer
- // text_layer_set_font(s_wday_layer, fonts_get_system_font(FONT_KEY_GOTHIC_14));
- // layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_wday_layer));
-  
   // Apply to TextLayer
   //text_layer_set_font(s_time_layer, s_time_font);
   
@@ -137,7 +93,6 @@ static void main_window_unload(Window *window) {
   // Destroy Textlayer
   text_layer_destroy(s_time_layer);
   text_layer_destroy(s_time_meridian_layer);
-//  text_layer_destroy(s_wday_layer);
   
   // Unload GFont
   fonts_unload_custom_font(s_time_font);
