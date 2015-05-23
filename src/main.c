@@ -7,7 +7,7 @@ static Window *s_main_window;
 static TextLayer *s_time_layer;
 static TextLayer *s_time_meridian_layer;
 static TextLayer *s_time_date_layer;
-static TextLayer *s_date_layer;
+//static TextLayer *s_date_layer;
 static TextLayer *s_weather_layer;
 static GFont s_time_font;
 
@@ -31,11 +31,11 @@ static void update_time() {
     strftime(buffer, sizeof("00:00"), "%I:%M", tick_time);
   }
   
- // strftime(datest, sizeof("00-00"), "%m-%d", tick_time);
+  strftime(datest, sizeof("00-00"), "%m-%d", tick_time);
 
   // Display this time on the TextLayer
   text_layer_set_text(s_time_layer, buffer);
-  text_layer_set_text(s_date_layer, datest);
+  text_layer_set_text(s_time_date_layer, datest);
   
   if (tick_time->tm_hour > 11)
   {
@@ -63,7 +63,7 @@ static void main_window_load(Window *window) {
   
   
   // Create time date layer
-  s_time_date_layer = text_layer_create(GRect(10, 100, 32, 24));
+  s_time_date_layer = text_layer_create(GRect(30, 100, 32, 24));
   text_layer_set_background_color(s_time_date_layer, GColorClear);
   text_layer_set_text_color(s_time_date_layer, GColorBlack);
   text_layer_set_text(s_time_date_layer, "00-00");
